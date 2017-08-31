@@ -19,6 +19,7 @@ public:
     void ComplexFFT(ComplexVector &sig, bool invert);
     void ComplexFFT(float *real_samples, float *image_samples,
                size_t num_samples, bool invert);
+    void RealFFT(float *real_samples, size_t num_samples);
 };
 
 

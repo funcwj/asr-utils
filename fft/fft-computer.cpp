@@ -111,3 +111,35 @@ void FFTComputer::ComplexFFT(float *real_samples, float *image_samples,
             R[i] = R[i] / n, I[i] = I[i] / n;
 }
 
+void FFTComputer::RealFFT(float *real_samples, size_t num_samples) {
+    size_t n = num_samples >> 1;
+
+    float *R = new float[n];
+    float *I = new float[n];
+
+    for (int i = 0; i < n; i++) {
+        R[i] = real_samples[i * 2], I[i] = real_samples[i * 2 + 1];
+    }
+
+    ComplexFFT(R, I, n, false);
+    float FR, FI, GR, GI, YR, YI, CYR, CYI, XR, XI, cosr, sinr;
+    for (int r = 0; r < n; r++)
+    {
+        if(r == 0)
+            FR = R[r], FI = 0.0, GR = I[r], GI = 0.0;
+        else
+        {
+            YR  = R[r], YI = I[r];
+            CYR = R[n - r], CYI = -I[n - r];
+            FR  = (YR + CYR) / 2, FI = (YI + CYI) / 2;
+            GR  = (YI - CYI) / 2, GI = (CYR - YR) / 2;
+        }
+        cosr = cos(r * PI / n);
+        sinr = sin(r * PI / n);
+        XR = FR + cosr * GR - sinr * GI;
+        XI = FI + cosr * GI + sinr * GR;
+        real_samples[r * 2] = XR, real_samples[r * 2 + 1] = XI;
+    }
+    delete[] R;
+    delete[] I;
+}
