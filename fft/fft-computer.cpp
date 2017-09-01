@@ -50,16 +50,13 @@ void FFTComputer::ComplexFFT(float *real_samples, float *image_samples,
     n = num_samples;
     float *R = real_samples, *I = image_samples;
 
-    for(j = 0, i = 0; i < n - 1; i++)
-    {
-        if(i < j)
-        {
+    for(j = 0, i = 0; i < n - 1; i++) {
+        if(i < j) {
             std::swap(R[i], R[j]);
             std::swap(I[i], I[j]);
         }
         m = n >> 1;
-        while(j >= m)
-        {
+        while(j >= m) {
             j = j - m;
             m = m >> 1;
         }
@@ -68,8 +65,7 @@ void FFTComputer::ComplexFFT(float *real_samples, float *image_samples,
 
     m = 1;
     // 1, 2, 4 级
-    while(m < n)
-    {
+    while(m < n) {
         /*
             m = 1: [1, 2], [3, 4], [5, 6], [7, 8] 4
             m = 2: [1, 3], [2, 4], [5, 7], [6, 8] 2
@@ -80,16 +76,14 @@ void FFTComputer::ComplexFFT(float *real_samples, float *image_samples,
         // inc: 4 2 1
         // m  : 1 2 4
         // W递增inc
-        while(cnt < inc)
-        {
+        while(cnt < inc) {
             // m = 1: 1 3 5 7
             // m = 2: 1 5
             // m = 4: 1
             i = cnt * m * 2;
             // W[0, n]: inc
             // 计算m次 迭代inc次
-            for(int t = 0; t < m; t++, i++)
-            {
+            for(int t = 0; t < m; t++, i++) {
                 j = i + m;
                 k = t * inc;
                 // printf("[%3d, %3d] W[%3d, %3d]\n", i, j, k, nn);
@@ -123,12 +117,11 @@ void FFTComputer::RealFFT(float *real_samples, size_t num_samples) {
 
     ComplexFFT(R, I, n, false);
     float FR, FI, GR, GI, YR, YI, CYR, CYI, XR, XI, cosr, sinr;
-    for (int r = 0; r < n; r++)
-    {
-        if(r == 0)
+
+    for (int r = 0; r < n; r++) {
+        if(r == 0) {
             FR = R[r], FI = 0.0, GR = I[r], GI = 0.0;
-        else
-        {
+        } else {
             YR  = R[r], YI = I[r];
             CYR = R[n - r], CYI = -I[n - r];
             FR  = (YR + CYR) / 2, FI = (YI + CYI) / 2;
