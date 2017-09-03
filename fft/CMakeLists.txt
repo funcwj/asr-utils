@@ -3,5 +3,5 @@ project(FFT)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES fft-computer-test.cpp fft-computer.cpp fft-computer.h)
+set(SOURCE_FILES fft-computer-test.cc fft-computer.cc fft-computer.h)
 add_executable(fft-computor-test ${SOURCE_FILES})
